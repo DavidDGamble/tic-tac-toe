@@ -61,6 +61,18 @@ SpaceBool.prototype.endGame = function () {
   this.spaceArray = [[false, false, false], [false, false, false], [false, false, false]];
 }
 
+SpaceBool.prototype.tieGame = function () {
+  let tie = true;
+  this.spaceArray.forEach(function (element) {
+    element.forEach(function (innerElement) {
+      if (innerElement === true) {
+        tie = false;
+      }
+    });
+  });
+  return tie;
+}
+
 
 // UI Logic--------------------------------------------------------------------------------
 function handleClick(event) {
@@ -99,11 +111,15 @@ function handleClick(event) {
           spaceBool.checked(currentId);
         }
       }
+      if (spaceBool.tieGame()) {
+        document.getElementById('resetBtn').removeAttribute('class', 'hidden');
+      }
     }
+
   }
 }
 
-function handleReset(event){
+function handleReset(event) {
   event.preventDefault();
 
   location.reload()

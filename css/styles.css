@@ -1,9 +1,44 @@
-td {
-  border: 1px solid black;
-  height: 225px;
-  width: 225px;
-  }
+.container{
+  margin-top: 10%;
+}
 
-  .hidden {
-    display: none;
-  }
+.hidden {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+td {
+  width: 250px;
+  height: 250px;
+  text-align: center;
+}
+
+table {
+  margin: 5px auto;
+}
+
+.vert {
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+.hori {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+#playerX{
+ margin-top: 10%;
+}
+
+#playerO{
+  margin-top: 10%;
+}
+
+#resetBtn{
+  margin-top: 2%;
+  text-align: center;
+}
