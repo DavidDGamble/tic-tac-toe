@@ -1,29 +1,68 @@
 // Business Logic--------------------------------------------------------------------------
 function Board() {
-  this.player = 1;
-  this.zero = [];
-  this.one = [];
-  this.two = [];
+  this.player = 'x';
+  this.board = [['','',''],['','',''],['','','']]
 }
 
-Board.prototype.playerSwitch = function() {
+function SpaceBool() {
+  this.spaceArray = [[true, true, true], [true, true, true], [true, true, true]];
+}
+
+Board.prototype.switchPlayer = function () {
+  if (this.player === 'x') {
+    this.player = 'o';
+  } else {
+    this.player = 'x';
+  }
+};
+
+Board.prototype.addClick = function (id) {
+  const firstCoordinate = parseInt(id[0]);
+  const secondCoordinate = parseInt(id[1]);
+  this.board[firstCoordinate][secondCoordinate] = this.player;
+};
+
+Board.prototype.winner = function () {
+  
 
 };
 
-Board.prototype.addClick = function() {
-
-};
-
-Board.prototype.winner = function() {
-
-};
+SpaceBool.prototype.checked = function (id) {
+  const firstCoordinate = parseInt(id[0]);
+  const secondCoordinate = parseInt(id[1]);
+  this.spaceArray[firstCoordinate][secondCoordinate] = false;
+}
 
 
 // UI Logic--------------------------------------------------------------------------------
-function handleClick(event){
+function handleClick(event) {
   event.preventDefault();
 
-  const id = event.target.getAttribute("id");
+  const currentId = event.target.getAttribute("id");
+  if (currentId !== null) {
+    const firstCoordinate = parseInt(currentId[0]);
+    const secondCoordinate = parseInt(currentId[1]);
+  
+    if (spaceBool.spaceArray[firstCoordinate][secondCoordinate]) {
+      if (board.player === 'x') {
+        const newImg = document.createElement('img');
+        newImg.setAttribute('src', 'img/x.jpeg');
+        document.getElementById(currentId).append(newImg);
+        board.addClick(currentId);
+        board.switchPlayer();
+        spaceBool.checked(currentId);
+      } else {
+        const newImg = document.createElement('img');
+        newImg.setAttribute('src', 'img/o.jpeg');
+        document.getElementById(currentId).append(newImg);
+        board.addClick(currentId);
+        board.switchPlayer();
+        spaceBool.checked(currentId);
+      }
+    }
+  }
+  console.log(board);
+  console.log(spaceBool);
 }
 
 
@@ -31,8 +70,9 @@ function handleClick(event){
 
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   board = new Board();
+  spaceBool = new SpaceBool();
   document.getElementById("00").addEventListener('click', handleClick);
   document.getElementById("01").addEventListener('click', handleClick);
   document.getElementById("02").addEventListener('click', handleClick);
