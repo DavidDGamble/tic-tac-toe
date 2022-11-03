@@ -3,3 +3,7 @@ td {
   height: 225px;
   width: 225px;
   }
+
+  .hidden {
+    display: none;
+  }
