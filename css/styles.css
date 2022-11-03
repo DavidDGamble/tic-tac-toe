@@ -1,5 +1,5 @@
 .container{
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .hidden {
@@ -41,4 +41,13 @@ table {
 #resetBtn{
   margin-top: 2%;
   text-align: center;
+}
+
+#players {
+  margin-top: 10%;
+  text-align: center;
+}
+
+#onePlayer {
+  margin-right: 5%;
 }

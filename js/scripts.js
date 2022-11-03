@@ -1,7 +1,8 @@
 // Business Logic--------------------------------------------------------------------------
-function Board() {
+function Board(playerNum) {
+  this.playerNum = playerNum
   this.player = 'x';
-  this.board = [['', '', ''], ['', '', ''], ['', '', '']]
+  this.board = [['', '', ''], ['', '', ''], ['', '', '']];
 }
 
 function SpaceBool() {
@@ -51,6 +52,20 @@ Board.prototype.winner = function (id) {
   return '';
 };
 
+Board.prototype.robot = function () {
+  let firstCoordinate = Math.floor(Math.random() * 3);
+  let secondCoordinate = Math.floor(Math.random() * 3);
+  while (this.board[firstCoordinate][secondCoordinate] !== '') {
+    firstCoordinate = Math.floor(Math.random() * 3);
+    secondCoordinate = Math.floor(Math.random() * 3);
+  }
+  this.board[firstCoordinate][secondCoordinate] = 'o';
+  spaceBool.spaceArray[firstCoordinate][secondCoordinate] = false;
+  firstCoordinate = firstCoordinate.toString();
+  secondCoordinate = secondCoordinate.toString();
+  return firstCoordinate + secondCoordinate;
+}
+
 SpaceBool.prototype.checked = function (id) {
   const firstCoordinate = parseInt(id[0]);
   const secondCoordinate = parseInt(id[1]);
@@ -75,62 +90,118 @@ SpaceBool.prototype.tieGame = function () {
 
 
 // UI Logic--------------------------------------------------------------------------------
+function handleTwoPlayer(event) {
+  event.preventDefault();
+  board = new Board(2);
+  spaceBool = new SpaceBool();
+  document.getElementById('players').setAttribute('class', 'hidden');
+  document.getElementById('table').removeAttribute('class', 'hidden');
+}
+
+function handleOnePlayer(event) {
+  event.preventDefault();
+  board = new Board(1);
+  spaceBool = new SpaceBool();
+  document.getElementById('players').setAttribute('class', 'hidden');
+  document.getElementById('table').removeAttribute('class', 'hidden');
+}
+
 function handleClick(event) {
   event.preventDefault();
-
-  const currentId = event.target.getAttribute("id");
-  if (currentId !== null) {
-    const firstCoordinate = parseInt(currentId[0]);
-    const secondCoordinate = parseInt(currentId[1]);
-
-    if (spaceBool.spaceArray[firstCoordinate][secondCoordinate]) {
-      if (board.player === 'x') {
-        const newImg = document.createElement('img');
+  let currentId = event.target.getAttribute("id");
+  if (board.playerNum === 2) {
+    if (currentId !== null) {
+      const firstCoordinate = parseInt(currentId[0]);
+      const secondCoordinate = parseInt(currentId[1]);
+      if (spaceBool.spaceArray[firstCoordinate][secondCoordinate]) {
+        if (board.player === 'x') {
+          const newImg = document.createElement('img');
+          newImg.setAttribute('src', 'img/x.jpeg');
+          document.getElementById(currentId).append(newImg);
+          board.addClick(currentId);
+          if (board.winner() === 'x' || board.winner() === 'o') {
+            document.getElementById('playerX').removeAttribute('class', 'hidden');
+            spaceBool.endGame();
+            document.getElementById('resetBtn').removeAttribute('class', 'hidden');
+          } else {
+            board.switchPlayer();
+            spaceBool.checked(currentId);
+          }
+        } else {
+          const newImg = document.createElement('img');
+          newImg.setAttribute('src', 'img/o.jpeg');
+          document.getElementById(currentId).append(newImg);
+          board.addClick(currentId);
+          if (board.winner() === 'x' || board.winner() === 'o') {
+            document.getElementById('playerO').removeAttribute('class', 'hidden');
+            spaceBool.endGame();
+            document.getElementById('resetBtn').removeAttribute('class', 'hidden');
+          } else {
+            board.switchPlayer();
+            spaceBool.checked(currentId);
+          }
+        }
+        if (spaceBool.tieGame() && board.winner() === '') {
+          document.getElementById('tie').removeAttribute('class', 'hidden');
+          document.getElementById('resetBtn').removeAttribute('class', 'hidden');
+        }
+      }
+    }
+  } else {
+    if (currentId !== null) {
+      const firstCoordinate = parseInt(currentId[0]);
+      const secondCoordinate = parseInt(currentId[1]);
+      if (spaceBool.spaceArray[firstCoordinate][secondCoordinate]) {
+        let newImg = document.createElement('img');
         newImg.setAttribute('src', 'img/x.jpeg');
         document.getElementById(currentId).append(newImg);
         board.addClick(currentId);
+        spaceBool.checked(currentId);
         if (board.winner() === 'x' || board.winner() === 'o') {
           document.getElementById('playerX').removeAttribute('class', 'hidden');
           spaceBool.endGame();
           document.getElementById('resetBtn').removeAttribute('class', 'hidden');
-        } else {
-          board.switchPlayer();
-          spaceBool.checked(currentId);
-        }
-      } else {
-        const newImg = document.createElement('img');
-        newImg.setAttribute('src', 'img/o.jpeg');
-        document.getElementById(currentId).append(newImg);
-        board.addClick(currentId);
-        if (board.winner() === 'x' || board.winner() === 'o') {
-          document.getElementById('playerO').removeAttribute('class', 'hidden');
-          spaceBool.endGame();
+        } else if (spaceBool.tieGame() && board.winner() === '') {
+          document.getElementById('tie').removeAttribute('class', 'hidden');
           document.getElementById('resetBtn').removeAttribute('class', 'hidden');
         } else {
           board.switchPlayer();
           spaceBool.checked(currentId);
+          currentId = board.robot();
+          newImg = document.createElement('img');
+          newImg.setAttribute('src', 'img/o.jpeg');
+// Fix timer ---------------------------------------------------------------------------------
+          // setTimeout(() => {
+          document.getElementById(currentId).append(newImg);
+          // }, 1000);       
+// Fix timer ---------------------------------------------------------------------------------
+          board.addClick(currentId);
+          if (board.winner() === 'x' || board.winner() === 'o') {
+            document.getElementById('playerO').removeAttribute('class', 'hidden');
+            spaceBool.endGame();
+            document.getElementById('resetBtn').removeAttribute('class', 'hidden');
+          } else {
+            board.switchPlayer();
+            spaceBool.checked(currentId);
+          }
         }
       }
-      if (spaceBool.tieGame()) {
+      if (spaceBool.tieGame() && board.winner() === '') {
+        document.getElementById('tie').removeAttribute('class', 'hidden');
         document.getElementById('resetBtn').removeAttribute('class', 'hidden');
       }
     }
-
   }
 }
 
 function handleReset(event) {
   event.preventDefault();
-
   location.reload()
-
-
 }
 
 window.addEventListener("load", function () {
-  board = new Board();
-  spaceBool = new SpaceBool();
-  document.getElementById("resetBtn").addEventListener("click", handleReset);
+  document.getElementById("twoPlayer").addEventListener('click', handleTwoPlayer);
+  document.getElementById("onePlayer").addEventListener('click', handleOnePlayer);
   document.getElementById("00").addEventListener('click', handleClick);
   document.getElementById("01").addEventListener('click', handleClick);
   document.getElementById("02").addEventListener('click', handleClick);
@@ -140,4 +211,5 @@ window.addEventListener("load", function () {
   document.getElementById("20").addEventListener('click', handleClick);
   document.getElementById("21").addEventListener('click', handleClick);
   document.getElementById("22").addEventListener('click', handleClick);
+  document.getElementById("resetBtn").addEventListener("click", handleReset);
 });

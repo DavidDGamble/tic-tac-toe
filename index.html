@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 	<link rel="stylesheet" href="css/styles.css" type="text/css">
-  <title>Tic Tac Toe</title>
+	<title>Tic Tac Toe</title>
 </head>
+
 <body>
 	<div class="container">
-  <table>
-    <tr>
-        <td id="00"></td>
-        <td class="vert" id="01"></td>
-        <td id="02"></td>
-    </tr>
-    <tr>
-        <td class="hori" id="10"></td>
-        <td class="vert hori" id="11"></td>
-        <td class="hori" id="12"></td>
-    </tr>
-    <tr>
-        <td id="20"></td>
-        <td class="vert" id="21"></td>
-        <td id="22"></td>
-    </tr>
-</table>
+		<table id="table" class="hidden">
+			<tr>
+				<td id="00"></td>
+				<td class="vert" id="01"></td>
+				<td id="02"></td>
+			</tr>
+			<tr>
+				<td class="hori" id="10"></td>
+				<td class="vert hori" id="11"></td>
+				<td class="hori" id="12"></td>
+			</tr>
+			<tr>
+				<td id="20"></td>
+				<td class="vert" id="21"></td>
+				<td id="22"></td>
+			</tr>
+		</table>
 
 
-<div class="hidden" id="playerX">
-	<h1>Player X Wins!</h1>
-</div>
-<div class="hidden" id="playerO">
-	<h1>Player O Wins!</h1>
-</div>
-	<div id="resetBtn" class="hidden">
-<button class="btn btn-lg btn-success" id="resetBtn" type="click">Reset</button>
-</div>
-<script src="js/scripts.js"></script>
-</div>
+		<div class="hidden" id="playerX">
+			<h1>Player X Wins!</h1>
+		</div>
+		<div class="hidden" id="playerO">
+			<h1>Player O Wins!</h1>
+		</div>
+		<div class="hidden" id="tie">
+			<h1>Tie!</h1>
+		</div>
+		<div id="players">
+			<button class="btn btn-lg btn-info" id="onePlayer" type="click">1 Player</button>
+			<button class="btn btn-lg btn-info" id="twoPlayer" type="click">2 Player</button>
+		</div>
+		<div id="resetBtn" class="hidden">
+			<button class="btn btn-lg btn-success" id="resetBtn" type="click">Reset</button>
+		</div>
+		<script src="js/scripts.js"></script>
+	</div>
 </body>
+
 </html>
